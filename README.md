@@ -1,5 +1,12 @@
 # 自带 CMS 系统的云转码系统，一体化自动发布云转码 cms 系统
 
+## 一键安装脚本（适合centos7\ubuntu\debian）
+```
+bash <(curl -L -s https://raw.githubusercontent.com/Baiyuetribe/express-ffmpeg-docker/docker/oneshell.sh)
+```
+![carbon (6).png](https://i.loli.net/2019/04/29/5cc6fca1db2f9.png)
+
+
 ## 社区
 官方合作社区:[合作社区](https://www.iqi360.com/category/5c386b74467870259b23b2e4)
 大量ffmpeg尖端技术分享，集群转码，多线程转码，使用窍门，有问题可以在社区提问，别在码云里边提问了。
