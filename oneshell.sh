@@ -213,7 +213,6 @@ start_menu(){
     case "$num" in
     1)
 	check_docker
-    check_docker_compose
     install_main
 	;;
 	2)
