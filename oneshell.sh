@@ -148,7 +148,7 @@ EOF
     -v /opt/express-ffmpeg/videos:/express-ffmpeg/public/videos \
     -v /opt/express-ffmpeg/uploads:/express-ffmpeg/public/uploads \
     -v /opt/express-ffmpeg/images:/express-ffmpeg/public/images \
-    moerats/express-ffmpeg
+    baiyuetribe/express-ffmpeg-cms
     notice        
 }
 
