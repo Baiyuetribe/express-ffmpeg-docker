@@ -1,0 +1,55 @@
+extends cmslayout
+block header
+  if currentcategory
+    title #{currentcategory} - #{portal.title}
+  else
+    title #{portal.moviestitle} - #{portal.title}
+  link(rel='stylesheet', href='/stylesheets/swiper.min.css')
+block content
+  .tabs-container#swiper-container
+    .swiper-wrapper
+      if currentcategory
+        a.tag.swiper-slide(href="/movies#all",data-hash="all") 全部
+      else
+        a.tag.swiper-slide.current(href="/movies#all",data-hash="all") 全部
+      each category in categories
+        if currentcategory && currentcategory==category.title
+          a.tag.swiper-slide.current(href="/category/#{category.title}##{category.title}",data-hash="#{category.title}") #{category.title}
+        else
+          a.tag.swiper-slide(href="/category/#{category.title}##{category.title}",data-hash="#{category.title}") #{category.title}
+  .layui-container.mt-20
+    .layui-row.layui-col-space20
+      .layui-col-md12
+        .waterfall
+          each movie in movies
+            .col-md-4
+              each themovie in movie
+                .card.nopadding
+                  a(href="/movie/#{themovie._id}")
+                    if themovie.poster
+                      img(src="#{themovie.poster}")
+                    else
+                      img(src="/videos/#{themovie._id}/1.jpg")
+                  .card-body
+                    a(href="/movie/#{themovie._id}")
+                      h2 #{themovie.originalname}
+        nav.pages
+          if( pages> 1)
+            ul.pagination
+              != createPagination(pages, page)
+append script
+  script(src="/javascripts/swiper.min.js")
+  script.
+    var navSwiper = new Swiper('#swiper-container', {
+        freeMode: true,
+        slidesPerView: 'auto',
+        freeModeSticky: true,
+        hashNavigation: true
+    });
+    $(window).scroll(function(){
+      if($(window).scrollTop()>60) {
+        $("#swiper-container").css({"position":"fixed","top":0,"left":0,"z-index":100})
+      } else {
+        $("#swiper-container").css({"position":"relative"})
+      }
+    })

@@ -1,0 +1,90 @@
+extends layout
+block content
+  include navbar
+  .layui-container.main
+    .layui-row
+      .layui-col-md8.layui-col-md-offset2
+        h1.title 全部电影库
+        .flex
+          .layui-btn-group#actions
+            button.layui-btn.zhuanma 转码并切片
+            button.layui-btn.listszhuanma 队列转码
+            button.layui-btn.ruku 扫描入库
+            button.layui-btn.zimu 上传字幕
+          form.layui-form(action="").float-right
+            .layui-form-item
+              label.layui-form-label 搜索
+              .layui-input-inline
+                input.layui-input(type="text", name="keyword", placeholder="搜索视频，ID或者标题")
+        .layui-form
+          .layui-inline
+            select(name="shaixuan" lay-search lay-filter="shaixuan")
+              option(value="") 筛选视频
+              each category in categories
+                option(value="#{category.title}") #{category.title}
+          .layui-inline
+            select(name="counts" lay-search lay-filter="counts")
+              option(value="") 显示数量
+              option(value="10") 10
+              option(value="50") 50
+              option(value="100") 100
+          .right
+            p(style="line-height:38px;verticle-align:middle;") 共#{all}部 / 完成#{finished}部 / 等待中#{waiting}部
+        table.layui-table
+          thead
+            tr
+              th(width="100px") 分类
+              th 电影名
+              th 大小
+              th 状态
+              th(width="250px") 操作
+          tbody
+            each movie in movies
+              tr
+                td.layui-form
+                  input.movieselected(type="checkbox" title="选择" value="#{movie._id}" lay-skin="primary")
+                  select.moviecategory(name="thecategory" lay-filter="" lay-search data-id="#{movie._id}")
+                    option(value="") 请选择分类
+                    each category in categories
+                      option(value="#{category.title}" selected=category.title==movie.category?true:false) #{category.title}
+                td #{movie.originalname}
+                td #{parseInt(movie.size/1000000)}MB
+                td #{movie.status}
+                td
+                  .layui-btn-group
+                    button.layui-btn.layui-btn-sm.uploadvtt(lay-data="{data: {id: '#{movie._id}'}}") 上传vtt字幕
+                    button.layui-btn.layui-btn-sm.uploadposter(lay-data="{data: {id: '#{movie._id}'}}") 上传封面
+                    button.layui-btn.layui-btn-sm.geturl(id="#{movie._id}") 分享链接
+                    button.layui-btn.layui-btn-sm.getm3u8(id="#{movie._id}") 复制m3u8
+                    button.layui-btn.layui-btn-sm.editmovietitle(data-id="#{movie._id}") 编辑
+                    button.layui-btn.layui-btn-sm.pushtoindex(data-id="#{movie._id}") 推荐
+                    button.layui-btn.layui-btn-sm.category(data-id="#{movie._id}") 分类
+                    button.layui-btn.layui-btn-sm.layui-btn-danger.btn-delete-movie(data-id="#{movie._id}") 删除
+        .layui-btn-group
+          button.layui-btn.savecategory 保存本页分类
+          button.layui-btn.selectedchangecategory 批量修改分类
+          button.layui-btn.selectedcuthead 批量剪切片头
+          button.layui-btn.layui-btn-danger.btn-deleteall 批量删除
+        nav.pages
+          if( pages> 1)
+            ul.pagination
+              != createPagination(pages, page)
+        .addcategory.layui-form
+          select.selectcategory(name="category" lay-filter="" lay-search)
+            option(value="") 请选择分类
+            each category in categories
+              option(value="#{category.title}") #{category.title}
+          input.layui-input.inputcategory(type="text" placeholder="添加分类，多个分类以英文半角,分开")
+          button.layui-btn.layui-btn-sm.doaddcategory 保存
+        .selectedcategory.layui-form(style="padding:30px;text-align:center;")
+          select.selectmoviecategory(name="category" lay-filter="" lay-search)
+            option(value="") 请选择分类
+            each category in categories
+              option(value="#{category.title}") #{category.title}
+          button.layui-btn.layui-btn-sm.doselectaddcategory(style="margin-top:15px;") 修改
+        .selectedhead.layui-form(style="padding:30px;text-align:center;")
+          .layui-form-item
+            label.layui-form-label 剪切时长
+            .layui-input-block
+              input.layui-input.duration(type="text",name="duration",placeholder="输入时间轴，格式00:00:10")
+          button.layui-btn.layui-btn-sm.docuthead 确定
