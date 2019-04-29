@@ -5,6 +5,6 @@ module.exports = {
     dbuser: "ffmpeg",
     dbpassword: "dbpassword",
     secret: "yoursecret",
-    login: "/admin",
+    login: "/adminlogin",
     loginmsg: "404 Not Found"
 };
